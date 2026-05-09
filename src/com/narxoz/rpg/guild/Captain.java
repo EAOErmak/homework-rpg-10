@@ -10,12 +10,26 @@ public class Captain extends GuildMember {
     }
 
     public void issueOrder(String topic, String payload) {
-        // TODO: send a command message through the mediator.
+        say("Captain", "issues a council order on '" + topic + "': " + payload);
         getMediator().dispatch(topic, this, payload);
     }
 
     @Override
     public void receive(String topic, GuildMember from, String payload) {
-        // TODO: react to a guild-hall message without calling another colleague directly.
+        String sender = sourceName(from);
+        switch (topic) {
+            case GuildTopics.ORDERS ->
+                    say("Captain", "turns the council directive into marching orders: " + payload);
+            case GuildTopics.SCOUTING ->
+                    say("Captain", "adjusts formation using the latest route report: " + payload);
+            case GuildTopics.SUPPLIES ->
+                    say("Captain", "approves the logistics request and budget: " + payload);
+            case GuildTopics.HEALING ->
+                    say("Captain", "slows the advance plan to protect wounded heroes: " + payload);
+            case GuildTopics.LORE ->
+                    say("Captain", "adds the lore warning to the mission briefing: " + payload);
+            default ->
+                    say("Captain", "records a miscellaneous report from " + sender + ": " + payload);
+        }
     }
 }

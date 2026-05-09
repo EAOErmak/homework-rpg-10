@@ -22,5 +22,13 @@ public abstract class GuildMember {
         return mediator;
     }
 
+    protected String sourceName(GuildMember from) {
+        return from == null ? "CouncilEngine" : from.getName();
+    }
+
+    protected void say(String role, String message) {
+        System.out.printf("[%s:%s] %s%n", role, name, message);
+    }
+
     public abstract void receive(String topic, GuildMember from, String payload);
 }
